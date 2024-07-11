@@ -1,0 +1,26 @@
+<div *ngIf="isLoggedIn; else notLoggedIn" class="notes-container">
+  <h2>Your Notes</h2>
+  <input type="text" placeholder="Search notes..." (input)="onSearch($event)" class="search-bar" />
+  <ul class="notes-list">
+    <li *ngFor="let note of notes" class="note-item">
+      <div class="note-content">
+        <span class="note-title">{{ note.titel }}</span>
+        <span class="note-text">{{ note.content }}</span>
+      </div>
+      <div class="note-actions">
+        <button *ngIf="note.can_edit" (click)="editNote(note.note_id)" class="btn-edit">Edit</button>
+        <button *ngIf="note.can_edit" (click)="deleteNote(note.note_id)" class="btn-delete">Delete</button>
+      </div>
+    </li>
+  </ul>
+  <button routerLink="/create" class="btn-create">Create Note</button>
+</div>
+<ng-template #notLoggedIn>
+  <div class="not-logged-in-container">
+    <p>Please log in to view your notes.</p>
+    <div class="auth-buttons">
+      <button routerLink="/login" class="btn-login">Login</button>
+      <button routerLink="/register" class="btn-register">Register</button>
+    </div>
+  </div>
+</ng-template>

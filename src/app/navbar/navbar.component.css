@@ -1,0 +1,71 @@
+/* Navbar container */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  padding: 0.5rem 1rem;
+  font-family: Arial, sans-serif;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Brand name */
+.navbar-brand a {
+  color: #fff;
+  font-size: 1.5rem;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* Navbar items */
+.navbar-nav {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.nav-item {
+  margin-right: 1rem;
+}
+
+.nav-link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color 0.3s;
+  padding: 0.5rem; /* Add padding to ensure alignment */
+  display: flex;
+  align-items: center;
+}
+
+.nav-link:hover {
+  color: #f0a500;
+}
+
+/* Authentication buttons */
+.auth-buttons {
+  display: flex;
+  align-items: center;
+}
+
+.btn-login,
+.btn-register,
+.btn-logout {
+  background-color: #f0a500;
+  color: #fff;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  margin-left: 1rem;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+}
+
+.btn-login:hover,
+.btn-register:hover,
+.btn-logout:hover {
+  background-color: #e08e00;
+}
