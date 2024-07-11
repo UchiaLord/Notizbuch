@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
   notes: any[] = [];
@@ -22,15 +22,20 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.authService.isLoggedIn$.subscribe((isLoggedIn) => {
       this.isLoggedIn = isLoggedIn;
+      console.log('isLoggedIn:', isLoggedIn);
+
       if (isLoggedIn) {
-        this.authService.userId$.subscribe(userId => {
-          this.userId = userId; // Access userId from AuthService
-          this.loadNotes();
-          console.log('User ID:', this.userId); // Log user ID when logged in
+        this.authService.userId$.subscribe((userId) => {
+          this.userId = userId;
+          console.log('User ID:', userId);
+          if (userId !== null) {
+            this.loadNotes();
+          }
         });
       } else {
         this.userId = null;
         this.notes = [];
+        console.log('User is logged out');
       }
     });
   }
@@ -39,42 +44,45 @@ export class HomeComponent implements OnInit {
     this.notesService.getNotes().subscribe({
       next: (response: any[]) => {
         this.notes = response;
+        console.log('Loaded notes:', this.notes);
       },
       error: (error: any) => {
         console.error('Failed to load notes:', error);
-        // Handle error: show error message to user
-      }
+      },
     });
   }
 
   editNote(noteId: number): void {
-    // Ensure user has edit permission for this note
-    const note = this.notes.find(note => note.id === noteId);
+    const note = this.notes.find((note) => note.id === noteId);
+    console.log('Attempting to edit note with ID:', noteId); // Log the note ID
+    if (note) {
+      console.log('Found note for editing:', note); // Log the note details
+    }
     if (note && note.can_edit) {
       this.router.navigate(['/edit', noteId]);
     } else {
       console.error('You do not have permission to edit this note');
-      // Handle error: show error message to user or navigate to an error page
     }
   }
 
   deleteNote(noteId: number): void {
-    const note = this.notes.find(note => note.id === noteId);
+    const note = this.notes.find((note) => note.id === noteId);
+    console.log('Attempting to delete note with ID:', noteId); // Log the note ID
+    if (note) {
+      console.log('Found note for deletion:', note); // Log the note details
+    }
     if (note && note.can_edit) {
       this.notesService.deleteNoteById(noteId).subscribe({
         next: () => {
           console.log('Note deleted successfully');
-          // Remove the note from the local list of notes
-          this.notes = this.notes.filter(note => note.id !== noteId);
+          this.notes = this.notes.filter((note) => note.id !== noteId);
         },
         error: (error: any) => {
           console.error('Failed to delete note:', error);
-          // Handle error: show error message to user
-        }
+        },
       });
     } else {
       console.error('You do not have permission to delete this note');
-      // Handle error: show error message to user or navigate to an error page
     }
   }
 
@@ -87,8 +95,7 @@ export class HomeComponent implements OnInit {
         },
         error: (error: any) => {
           console.error('Failed to search notes:', error);
-          // Handle error: show error message to user
-        }
+        },
       });
     } else {
       this.loadNotes(); // Load all notes if search term is empty

@@ -8,8 +8,8 @@
         <span class="note-text">{{ note.content }}</span>
       </div>
       <div class="note-actions">
-        <button *ngIf="note.can_edit" (click)="editNote(note.note_id)" class="btn-edit">Edit</button>
-        <button *ngIf="note.can_edit" (click)="deleteNote(note.note_id)" class="btn-delete">Delete</button>
+        <button *ngIf="note.can_edit" (click)="editNote(note.id)" class="btn-edit">Edit</button>
+        <button *ngIf="note.can_edit" (click)="deleteNote(note.id)" class="btn-delete">Delete</button>
       </div>
     </li>
   </ul>
